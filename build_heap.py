@@ -27,13 +27,13 @@ if __name__ == "__main__":
                 n = int(f.readline())
                 data = list(map(int, f.readline().split()))
         except FileNotFoundError:
-            print("File not found")
+            print()
             exit(0)
     else:
         print()
         exit(0)
 
-   
+    # check  n
     if len(data) != n:
         print()
         exit(0)
@@ -41,13 +41,12 @@ if __name__ == "__main__":
     swaps = build_heap(data)
 
     # output 
-    num_swaps = len(swaps) + 1
-    if num_swaps >= 4 * n:
+    num_swaps = len(swaps)
+    if num_swaps > 4 * n:
         print()
     else:
         print(num_swaps)
 
     # output all swaps
-    for i in range(len(swaps)):
-        j, i = swaps[i]
-        print(j, i)
+    for i, j in swaps:
+        print(i, j)
