@@ -1,52 +1,55 @@
+def swaping(data, i, res):
+    left = 2*i + 1
+    right = 2*i + 2
+    n = len(data) 
+    
+    if left >= n:
+        return
+    
+    x = left
+    if right < n and data[left] > data[right]:
+        x = right
+
+    if data[i] > data[x]:  
+        res.append([i, x]) 
+        data[i], data[x] = data[x], data[i]
+        swaping(data, x, res) 
+
 def build_heap(data):
     swaps = []
     n = len(data)
-    for i in range(n // 2, -1, -1):
-        j = i
-        while 2 * j + 1 < n:
-            k = 2 * j + 1
-            if k + 1 < n and data[k + 1] < data[k]:
-                k += 1
-            if data[j] <= data[k]:
-                break
-            swaps.append((j, k))
-            data[j], data[k] = data[k], data[j]
-            j = k
+
+    for i in range(int((n - 2)/2), -1, -1):
+        swaping(data, i, swaps)
+
     return swaps
 
+def main():
+    mode = input()
 
-if __name__ == "__main__":
-    input_type = input().upper()
-    if input_type == "I":
-        n = int(input())
+    if "F" in mode:
+        name = input()
+        if name != "a":
+            with open("./tests/" + name, mode="r") as fails:
+                file = fails.read()
+                text = file.splitlines()
+                n = int(text[0])
+                data = text[1]
+                data = list(map(int, data.split()))
+
+    elif "I" in mode:
+        n = int(input()) 
         data = list(map(int, input().split()))
-    elif input_type == "F":
-        try:
-            file_name = input()
-            with open(file_name, 'r') as f:
-                n = int(f.readline())
-                data = list(map(int, f.readline().split()))
-        except FileNotFoundError:
-            print()
-            exit(0)
+
     else:
-        print()
-        exit(0)
+        return
+    
+    assert len(data) == n
 
-    # check n
-    if len(data) != n:
-        print()
-        exit(0)
+    swaps = build_heap(data) 
+    
+    assert len(swaps) < 4*len(data)
 
-    swaps = build_heap(data)
-
-    # output
-    num_swaps = len(swaps)
-    if num_swaps > 4 * n:
-        print()
-    else:
-        print(num_swaps)
-
-    # output all swaps
-    for i, j in swaps:
+    print(len(swaps))
+    for i, j in swaps: 
         print(i, j)
