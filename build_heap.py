@@ -1,42 +1,47 @@
-# python3
+#Aigars Kraulis 221RDC045 18.grupa
+import math
 
-
-def build_heap(data):
+def build_heap(input_list):
     swaps = []
-    # TODO: Creat heap and heap sort
-    # try to achieve  O(n) and not O(n2)
+    n = len(input_list)
 
+    for i in range(n//2, -1, -1):
+        heapify(input_list, i, n, swaps)
 
     return swaps
 
+def heapify(input_list, i, n, swaps):
+    left = 2*i + 1
+    right = 2*i + 2
+
+    smallest = i
+    if left < n and input_list[left] < input_list[smallest]:
+        smallest = left
+
+    if right < n and input_list[right] < input_list[smallest]:
+        smallest = right
+
+    if smallest != i:
+        input_list[i], input_list[smallest] = input_list[smallest], input_list[i]
+        swaps.append((i, smallest))
+        heapify(input_list, smallest, n, swaps)
 
 def main():
-    
-    # TODO : add input and corresponding checks
-    # add another input for I or F 
-    # first two tests are from keyboard, third test is from a file
+    mode = input().strip()[0]
+    n = 0
+    input_list = []
+    if mode == "F":
+        with open("./tests/" + input().strip()) as file:
+            n = int(file.readline().strip())
+            input_list = list(map(int, file.readline().split()))
+    elif mode == "I":
+        n = int(input().strip())
+        input_list = list(map(int, input().strip().split()))
 
-
-    # input from keyboard
-    n = int(input())
-    data = list(map(int, input().split()))
-
-    # checks if lenght of data is the same as the said lenght
-    assert len(data) == n
-
-    # calls function to assess the data 
-    # and give back all swaps
-    swaps = build_heap(data)
-
-    # TODO: output how many swaps were made, 
-    # this number should be less than 4n (less than 4*len(data))
-
-
-    # output all swaps
+    swaps = build_heap(input_list)
     print(len(swaps))
-    for i, j in swaps:
-        print(i, j)
-
+    for swap in swaps:
+        print(swap[0], swap[1])
 
 if __name__ == "__main__":
     main()
