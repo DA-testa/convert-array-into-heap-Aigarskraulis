@@ -33,14 +33,14 @@ if __name__ == "__main__":
         print()
         exit(0)
 
-    # check  n
+    # check n
     if len(data) != n:
         print()
         exit(0)
 
     swaps = build_heap(data)
 
-    # output 
+    # output
     num_swaps = len(swaps)
     if num_swaps > 4 * n:
         print()
