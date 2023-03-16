@@ -1,3 +1,4 @@
+#Aigars Kraulis 221RDC045 18.grupa
 import math
 
 def build_heap(input_list):
